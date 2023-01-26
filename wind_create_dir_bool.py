@@ -63,6 +63,7 @@ wind_df['wind_dir_degree'] = flat_list
 
 def getWindDirBool(dir_degree): # direction of wind - FROM (not to)
     
+    #if (dir_degree >= 90) and (dir_degree<=270):
     if (dir_degree >= 90+16) and (dir_degree<=270+16):
         return 0; # south
     else:

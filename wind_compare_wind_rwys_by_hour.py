@@ -37,8 +37,14 @@ df_inner.to_csv(filename, sep=' ', encoding='utf-8', float_format='%.3f', index 
 same_df = df_inner[df_inner['same']==1]
 dif_df = df_inner[df_inner['same']==0]
 
-print(len(same_df))
-print(len(dif_df))
+
+same_dir_num = len(same_df)
+dif_dir_num = len(dif_df)
+
+same_dir_percent = same_dir_num/(same_dir_num + dif_dir_num)
+dif_dir_percent = dif_dir_num/(same_dir_num + dif_dir_num)
+print(same_dir_percent)
+print(dif_dir_percent)
 
 # 80% - landing facing into the wind
 
