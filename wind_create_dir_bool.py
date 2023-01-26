@@ -74,3 +74,19 @@ wind_df['wind_dir_bool'] = wind_df.apply(lambda row: getWindDirBool(row['wind_di
 filename = os.path.join(WEATHER_DIR, "ENGM_2019_10_wind_dir.csv")
 wind_df.to_csv(filename, sep=' ', encoding='utf-8', float_format='%.3f', index = False, header = True)
 
+
+filename = os.path.join(WEATHER_DIR, "ENGM_2019_10_wind_rwy.csv")
+wind_df = pd.read_csv(filename, sep=' ')
+
+U = wind_df[["u100"]].to_numpy() 
+V = wind_df[["v100"]].to_numpy() 
+
+Dir=np.mod(180+np.rad2deg(np.arctan2(U, V)),360)
+
+flat_list = [item for sublist in Dir.tolist() for item in sublist]
+wind_df['wind_dir_degree'] = flat_list
+
+wind_df['wind_dir_bool'] = wind_df.apply(lambda row: getWindDirBool(row['wind_dir_degree']), axis=1)    
+
+filename = os.path.join(WEATHER_DIR, "ENGM_2019_10_wind_dir_rwy.csv")
+wind_df.to_csv(filename, sep=' ', encoding='utf-8', float_format='%.3f', index = False, header = True)

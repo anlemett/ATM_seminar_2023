@@ -41,7 +41,8 @@ df['flight_dir_bool'] = df.apply(lambda row: getRwyDir(row['runway']), axis=1)
 
 WEATHER_DIR = os.path.join(DATA_DIR, "Weather")
 
-filename = os.path.join(WEATHER_DIR, "ENGM_2019_10_wind_dir.csv")
+#filename = os.path.join(WEATHER_DIR, "ENGM_2019_10_wind_dir.csv")
+filename = os.path.join(WEATHER_DIR, "ENGM_2019_10_wind_dir_rwy.csv")
 wind_df = pd.read_csv(filename, sep=' ')
 
 
@@ -73,5 +74,5 @@ dif_dir_percent = dif_dir_num/(same_dir_num + dif_dir_num)
 print(same_dir_percent)
 print(dif_dir_percent)
 
-# 81% - landing facing into the wind
+# 85% - landing facing into the wind (wind near the runways)
 

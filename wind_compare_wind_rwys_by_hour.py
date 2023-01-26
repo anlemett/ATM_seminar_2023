@@ -9,7 +9,8 @@ months = ['10']
 DATA_DIR = os.path.join("data", airport_icao)
 WEATHER_DIR = os.path.join(DATA_DIR, "Weather")
 
-filename = os.path.join(WEATHER_DIR, "ENGM_2019_10_wind_dir.csv")
+#filename = os.path.join(WEATHER_DIR, "ENGM_2019_10_wind_dir.csv")
+filename = os.path.join(WEATHER_DIR, "ENGM_2019_10_wind_dir_rwy.csv")
 wind_df = pd.read_csv(filename, sep=' ')
 
 filename = os.path.join(DATA_DIR, "runways_by_hour.csv")
@@ -46,5 +47,5 @@ dif_dir_percent = dif_dir_num/(same_dir_num + dif_dir_num)
 print(same_dir_percent)
 print(dif_dir_percent)
 
-# 80% - landing facing into the wind
+# 84% - landing facing into the wind (wind near the runways)
 
