@@ -19,8 +19,8 @@ DATASET_DATA_DIR = os.path.join(DATA_DIR, "Dataset")
 DATA_DIR = os.path.join(DATA_DIR, "Clustering")
 
 
-#input_dataset = "PM_south"
-input_dataset = "PM_north"
+#input_dataset = "PM_SOUTH"
+input_dataset = "PM_NORTH"
 input_filename = input_dataset + "_borders_points.csv"
 input_states_filename = input_dataset + ".csv"
 output_filename = input_dataset + "_clusters_" + str(number_of_clusters) + ".csv"

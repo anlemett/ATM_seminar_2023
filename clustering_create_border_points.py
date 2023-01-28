@@ -16,7 +16,7 @@ DATA_INPUT_DIR = os.path.join(DATA_DIR, "Dataset")
 DATA_OUTPUT_DIR = os.path.join(DATA_DIR, "Clustering")
 
 
-input_filename = "PM_south"
+input_filename = "PM_SOUTH"
 
 output_filename = input_filename + "_borders_points.csv"
 
@@ -45,7 +45,7 @@ for flight_id, flight_df in states_df.groupby(level='flightID'):
 borders_points_df.to_csv(os.path.join(DATA_OUTPUT_DIR, output_filename), sep=' ', encoding='utf-8', float_format='%.3f', index = False, header = True)   
         
         
-input_filename = "PM_north"
+input_filename = "PM_NORTH"
 
 output_filename = input_filename + "_borders_points.csv"
 
