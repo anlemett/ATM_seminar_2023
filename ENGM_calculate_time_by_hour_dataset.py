@@ -15,7 +15,7 @@ DATA_DIR = os.path.join("data", airport_icao)
 
 DATA_DIR = os.path.join(DATA_DIR, "PIs")
 
-dataset = "PM"
+dataset = "nonPM"
 
 def calculate_50NM_time_by_hour(dataset):
     input_filename = dataset + "_time_by_flight.csv"
@@ -72,15 +72,13 @@ def calculate_50NM_time_by_hour(dataset):
 
     df_dates_np = pi_by_hour_df.iloc[:,0].values
 
-    for month in months:
-        (first_day_weekday, number_of_days) = monthrange(int(year), int(month))
-    
-        date = year[2:] + month
+   
+    date = '1910'
         
-        for d in range(1,9):
-            month_date_list.append(date + '0' + str(d))
-        for d in range(10,number_of_days+1):
-            month_date_list.append(date + str(d))
+    for d in range(1,9):
+        month_date_list.append(date + '0' + str(d))
+    for d in range(10,29):
+        month_date_list.append(date + str(d))
 
     for d in month_date_list:
         if d not in df_dates_np:

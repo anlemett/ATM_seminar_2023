@@ -1,5 +1,10 @@
+import numpy as np
 import pandas as pd
+from calendar import monthrange
 import os
+
+import time
+start_time = time.time()
 
 year = '2019'
 airport_icao = "ENGM"
@@ -7,45 +12,39 @@ airport_icao = "ENGM"
 months = ['10']
 
 DATA_DIR = os.path.join("data", airport_icao)
-WEATHER_DIR = os.path.join(DATA_DIR, "Weather")
 
-#filename = os.path.join(WEATHER_DIR, "ENGM_2019_10_wind_dir.csv")
-filename = os.path.join(WEATHER_DIR, "ENGM_2019_10_wind_dir_rwy.csv")
-wind_df = pd.read_csv(filename, sep=' ')
+DATA_DIR = os.path.join(DATA_DIR, "PIs")
 
-filename = os.path.join(DATA_DIR, "runways_by_hour.csv")
-rwys_df = pd.read_csv(filename, sep=' ')
-
-print(wind_df.head())
-print(rwys_df.head())
-
-df_inner = pd.merge(wind_df, rwys_df, on=['day', 'hour'], how='inner')
-df_inner = df_inner[['day', 'hour', 'wind_dir_bool', 'flight_dir_bool']]
+dataset = "nonPM"
+PM_df = pd.read_csv(os.path.join(DATA_DIR, "PM_time_by_hour.csv"), sep=' ', dtype = {'date': str})
+nonPM_df = pd.read_csv(os.path.join(DATA_DIR, "nonPM_time_by_hour.csv"), sep=' ', dtype = {'date': str})
 
 
-def sameBoolValue(a, b):
+df = pd.concat([PM_df, nonPM_df], axis=1)
+df = pd.merge(PM_df, nonPM_df, on=['date', 'hour'], how='inner')
+
+
+#print(df.head(1))
+
+
+def greaterValue(a, b):
     
-    return int(not bool(a) ^ bool(b))
+    return int(a>b)
 
 
-df_inner['same'] = df_inner.apply(lambda row: sameBoolValue(row['wind_dir_bool'], row['flight_dir_bool']), axis=1)
-
-print(df_inner.head())
-
-filename = os.path.join(DATA_DIR, "compare_wind_runways_by_hour.csv")
-df_inner.to_csv(filename, sep=' ', encoding='utf-8', float_format='%.3f', index = False, header = True)
-
-same_df = df_inner[df_inner['same']==1]
-dif_df = df_inner[df_inner['same']==0]
+df['greater'] = df.apply(lambda row: greaterValue(row['numberOfFlightsByStartAndEnd_x'], row['numberOfFlightsByStartAndEnd_y']), axis=1)
 
 
-same_dir_num = len(same_df)
-dif_dir_num = len(dif_df)
+filename = os.path.join(DATA_DIR, "compare_PM_nonPM_by_hour.csv")
+df.to_csv(filename, sep=' ', encoding='utf-8', float_format='%.3f', index = False, header = True)
 
-same_dir_percent = same_dir_num/(same_dir_num + dif_dir_num)
-dif_dir_percent = dif_dir_num/(same_dir_num + dif_dir_num)
-print(same_dir_percent)
-print(dif_dir_percent)
+greater_df = df[df['greater']==1]
 
-# 84% - landing facing into the wind (wind near the runways)
+greater_df = greater_df[['date', 'hour', 'numberOfFlightsByStartAndEnd_x', 'numberOfFlightsByStartAndEnd_y']]
 
+greater_num = len(greater_df)
+
+print(greater_num)
+
+filename = os.path.join(DATA_DIR, "compare_PM_nonPM_greater_hours.csv")
+greater_df.to_csv(filename, sep=' ', encoding='utf-8', float_format='%.3f', index = False, header = True)

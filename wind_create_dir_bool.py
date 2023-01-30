@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from math import sqrt
 import os
 
 # example
@@ -87,6 +88,13 @@ flat_list = [item for sublist in Dir.tolist() for item in sublist]
 wind_df['wind_dir_degree'] = flat_list
 
 wind_df['wind_dir_bool'] = wind_df.apply(lambda row: getWindDirBool(row['wind_dir_degree']), axis=1)    
+
+
+def getWindSpeed(u, v):
+
+    return sqrt(u**2+v**2)
+
+wind_df['wind100'] = wind_df.apply(lambda row: getWindSpeed(row['u100'], row['v100']), axis=1)
 
 filename = os.path.join(WEATHER_DIR, "ENGM_2019_10_wind_dir_rwy.csv")
 wind_df.to_csv(filename, sep=' ', encoding='utf-8', float_format='%.3f', index = False, header = True)
