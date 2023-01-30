@@ -16,51 +16,24 @@ DATA_INPUT_DIR = os.path.join(DATA_DIR, "Dataset")
 DATA_OUTPUT_DIR = os.path.join(DATA_DIR, "Clustering")
 
 
-input_filename = "PM_SOUTH"
-
-output_filename = input_filename + "_borders_points.csv"
-
-
-states_df = pd.read_csv(os.path.join(DATA_INPUT_DIR, input_filename + ".csv"), sep=',',
-                    index_col=0)
-
-states_df.set_index(['flightID', 'sequence'], inplace=True)
-    
-borders_points_df = pd.DataFrame(columns=['flight_id', 'lat', 'lon'])
-
-count = 0
-number_of_flights = len(states_df.groupby(level='flightID'))  
-
-for flight_id, flight_df in states_df.groupby(level='flightID'): 
-    count = count + 1
-    print(number_of_flights, count, flight_id)
-    
-    entry_point_lon = flight_df['lon'][0]
-    entry_point_lat = flight_df['lat'][0]
-    
-    borders_points_df = pd.concat([borders_points_df, pd.DataFrame({'flight_id': [flight_id],
-                            'lat': [entry_point_lat], 
-                            'lon': [entry_point_lon]})])
-        
-borders_points_df.to_csv(os.path.join(DATA_OUTPUT_DIR, output_filename), sep=' ', encoding='utf-8', float_format='%.3f', index = False, header = True)   
-        
-        
 input_filename = "PM_NORTH"
+states_df = pd.read_csv(os.path.join(DATA_INPUT_DIR, input_filename + ".csv"), sep=' ',
+    names = ['flightId', 'sequence', 'timestamp', 'lat', 'lon', 'rawAltitude', 'altitude', 'velocity', 'beginDate', 'endDate'])
+
+#input_filename = "TT_NORTH"
+#states_df = pd.read_csv(os.path.join(DATA_INPUT_DIR, input_filename + ".csv"), sep=' ',
+#    names = ['flightId', 'sequence', 'timestamp', 'lat', 'lon', 'rawAltitude', 'altitude', 'velocity', 'beginDate', 'endDate'])
 
 output_filename = input_filename + "_borders_points.csv"
 
-
-states_df = pd.read_csv(os.path.join(DATA_INPUT_DIR, input_filename + ".csv"), sep=',',
-                    index_col=0)
-
-states_df.set_index(['flightID', 'sequence'], inplace=True)
+states_df.set_index(['flightId', 'sequence'], inplace=True)
     
 borders_points_df = pd.DataFrame(columns=['flight_id', 'lat', 'lon'])
 
 count = 0
-number_of_flights = len(states_df.groupby(level='flightID'))  
+number_of_flights = len(states_df.groupby(level='flightId'))
 
-for flight_id, flight_df in states_df.groupby(level='flightID'): 
+for flight_id, flight_df in states_df.groupby(level='flightId'):
     count = count + 1
     print(number_of_flights, count, flight_id)
     
@@ -73,4 +46,33 @@ for flight_id, flight_df in states_df.groupby(level='flightID'):
         
 borders_points_df.to_csv(os.path.join(DATA_OUTPUT_DIR, output_filename), sep=' ', encoding='utf-8', float_format='%.3f', index = False, header = True)   
         
+
+input_filename = "PM_SOUTH"
+states_df = pd.read_csv(os.path.join(DATA_INPUT_DIR, input_filename + ".csv"), sep=' ',
+    names = ['flightId', 'sequence', 'timestamp', 'lat', 'lon', 'rawAltitude', 'altitude', 'velocity', 'beginDate', 'endDate'])
+
+#input_filename = "TT_SOUTH"
+#states_df = pd.read_csv(os.path.join(DATA_INPUT_DIR, input_filename + ".csv"), sep=' ',
+#    names = ['flightId', 'sequence', 'timestamp', 'lat', 'lon', 'rawAltitude', 'altitude', 'velocity', 'beginDate', 'endDate'])
+
+output_filename = input_filename + "_borders_points.csv"
+
+states_df.set_index(['flightId', 'sequence'], inplace=True)
+    
+borders_points_df = pd.DataFrame(columns=['flight_id', 'lat', 'lon'])
+
+count = 0
+number_of_flights = len(states_df.groupby(level='flightId'))  
+
+for flight_id, flight_df in states_df.groupby(level='flightId'): 
+    count = count + 1
+    print(number_of_flights, count, flight_id)
+    
+    entry_point_lon = flight_df['lon'][0]
+    entry_point_lat = flight_df['lat'][0]
+    
+    borders_points_df = pd.concat([borders_points_df, pd.DataFrame({'flight_id': [flight_id],
+                            'lat': [entry_point_lat], 
+                            'lon': [entry_point_lon]})])
         
+borders_points_df.to_csv(os.path.join(DATA_OUTPUT_DIR, output_filename), sep=' ', encoding='utf-8', float_format='%.3f', index = False, header = True)   

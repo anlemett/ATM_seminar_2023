@@ -13,15 +13,14 @@ DATA_DIR = os.path.join("data", airport_icao)
 
 DATASET_DIR = os.path.join(DATA_DIR, "Dataset")
 
-input_filename = "PM.csv"
+input_filename = "TT2.csv"
 
-output_filename1 = "PM_SOUTH.csv"
-output_filename2 = "PM_NORTH.csv"
+output_filename1 = "TT_SOUTH.csv"
+output_filename2 = "TT_NORTH.csv"
 
 
 states_df = pd.read_csv(os.path.join(DATASET_DIR, input_filename), sep=' ',
             names = ['flightId', 'sequence', 'timestamp', 'lat', 'lon', 'rawAltitude', 'altitude', 'velocity', 'beginDate', 'endDate'])
-
 
 states_df.set_index(['flightId', 'sequence'], inplace=True)
 
@@ -42,8 +41,8 @@ rwys_df = pd.concat([rwys_week1_df, rwys_week2_df, rwys_week3_df, rwys_week4_df]
 rwys_df.set_index(['flight_id'], inplace=True)
 
 
-PM_south_df = pd.DataFrame()
-PM_north_df = pd.DataFrame()
+TT_south_df = pd.DataFrame()
+TT_north_df = pd.DataFrame()
 
 count = 0
 number_of_flights = len(states_df.groupby(level='flightId'))
@@ -56,15 +55,16 @@ for flight_id, flight_id_group in states_df.groupby(level='flightId'):
 
     if (rwy == '01R') or (rwy == '01L'):
         
-        PM_south_df = pd.concat([PM_south_df, flight_id_group])
+        TT_south_df = pd.concat([TT_south_df, flight_id_group])
         
     else:
         
-        PM_north_df = pd.concat([PM_north_df, flight_id_group])
+        TT_north_df = pd.concat([TT_north_df, flight_id_group])
 
 
 
-PM_south_df.to_csv(os.path.join(DATASET_DIR, output_filename1), sep=' ', encoding='utf-8', float_format='%.3f', index = True, header = False)
+TT_south_df.to_csv(os.path.join(DATASET_DIR, output_filename1), sep=' ', encoding='utf-8', float_format='%.3f', index = True, header = False)
 
-PM_north_df.to_csv(os.path.join(DATASET_DIR, output_filename2), sep=' ', encoding='utf-8', float_format='%.3f', index = True, header = False)
+
+TT_north_df.to_csv(os.path.join(DATASET_DIR, output_filename2), sep=' ', encoding='utf-8', float_format='%.3f', index = True, header = False)
 

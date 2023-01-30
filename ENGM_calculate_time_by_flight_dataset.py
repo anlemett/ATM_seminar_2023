@@ -1,6 +1,4 @@
-import numpy as np
 import pandas as pd
-from calendar import monthrange
 from datetime import datetime
 import os
 
@@ -13,8 +11,10 @@ airport_icao = "ENGM"
 months = ['10']
 
 DATA_DIR = os.path.join("data", airport_icao)
-STATES_DIR = os.path.join(DATA_DIR, "States_50NM")
+DATASET_DIR = os.path.join(DATA_DIR, "Dataset")
 DATA_OUTPUT_DIR = os.path.join(DATA_DIR, "PIs")
+
+dataset = "nonPM"
 
 
 def get_all_states(csv_input_file):
@@ -30,20 +30,20 @@ def get_all_states(csv_input_file):
     return df
 
 
-def calculate_50NM_time_by_flight(month, week):
+def calculate_50NM_time_by_flight(dataset):
     
-    input_filename = "osn_arrival_"+ airport_icao + "_states_50NM_" + year + '_' + str(month) + "_week" + str(week) + ".csv"
-    full_input_filename = os.path.join(STATES_DIR, input_filename)
+    input_filename = dataset + ".csv"
+    full_input_filename = os.path.join(DATASET_DIR, input_filename)
          
-    output_filename = "PIs_50NM_time_by_flight_" + year + '_' +  str(month) + "_week" + str(week)+ ".csv"
+    output_filename = dataset + "_time_by_flight.csv"
     full_output_filename = os.path.join(DATA_OUTPUT_DIR, output_filename)
      
     
     states_df = get_all_states(full_input_filename)
    
-    pi_df = pd.DataFrame(columns=['flight_id', 'begin_date', 'end_date',
-                                   'begin_hour', 'end_hour',
-                                   '50NM_time_sec', '50NM_time_min'])
+    pi_df = pd.DataFrame(columns=['flightId', 'beginDate', 'endDate',
+                                   'beginHour', 'endHour',
+                                   'TotalTimeSec', 'TotalTimeMin'])
    
     
     flight_id_num = len(states_df.groupby(level='flightId'))
@@ -52,7 +52,7 @@ def calculate_50NM_time_by_flight(month, week):
     for flight_id, flight_id_group in states_df.groupby(level='flightId'):
         
         count = count + 1
-        print(airport_icao, year, month, week, flight_id_num, count, flight_id)
+        print(airport_icao, flight_id_num, count, flight_id)
         
         begin_date_str = states_df.loc[flight_id].head(1)['beginDate'].values[0]
         end_date_str = states_df.loc[flight_id].head(1)['endDate'].values[0]
@@ -68,13 +68,13 @@ def calculate_50NM_time_by_flight(month, week):
         circle_50NM_time_sec = len(flight_id_group)     #seconds
         circle_50NM_time_min = len(flight_id_group)/60  #seconds to minutes
                 
-        pi_df = pd.concat([pi_df, pd.DataFrame({'flight_id': [flight_id],
-                                'begin_date': [begin_date_str], 
-                                'end_date': [end_date_str],
-                                'begin_hour': [begin_hour_str],
-                                'end_hour': [end_hour_str],
-                                '50NM_time_sec': [circle_50NM_time_sec],
-                                '50NM_time_min': [circle_50NM_time_min]})])
+        pi_df = pd.concat([pi_df, pd.DataFrame({'flightId': [flight_id],
+                                'beginDate': [begin_date_str], 
+                                'endDate': [end_date_str],
+                                'beginHour': [begin_hour_str],
+                                'endHour': [end_hour_str],
+                                'TotalTimeSec': [circle_50NM_time_sec],
+                                'TotalTimeMin': [circle_50NM_time_min]})])
 
     pi_df.to_csv(full_output_filename, sep=' ', encoding='utf-8', float_format='%.3f', header=True, index=False)
 
@@ -82,8 +82,7 @@ def calculate_50NM_time_by_flight(month, week):
 
 def main():
     
-    for week in range (0,4):
-        calculate_50NM_time_by_flight(10, week+1)
+    calculate_50NM_time_by_flight(dataset)
     
     
 main()    

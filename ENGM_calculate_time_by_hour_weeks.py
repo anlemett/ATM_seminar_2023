@@ -20,37 +20,35 @@ def calculate_50NM_time_by_hour(month, week):
     output_filename = "PIs_50NM_time_by_hour_" + year + '_' +  str(month) + "_week" + str(week)+ ".csv"
 
 
-    #flight_id begin_date end_date begin_hour end_hour 50NM_time
-    pi_df = pd.read_csv(os.path.join(DATA_DIR, input_filename), sep=' ', dtype = {'begin_date': str, 'end_date': str})
+    #flightId beginDate endDate beginHour endHour totalTimeSec totalTimeMin
+    pi_df = pd.read_csv(os.path.join(DATA_DIR, input_filename), sep=' ', dtype = {'beginDate': str, 'endDate': str})
 
-    pi_df.set_index(['end_date'], inplace=True)
+    pi_df.set_index(['endDate'], inplace=True)
 
     pi_by_hour_df = pd.DataFrame(columns=['date', 'hour',
-                             'number_of_flights_by_end',
-                             'number_of_flights_by_start_and_end',
-                             '50NM_time_mean_sec',
-                             '50NM_time_mean_min'
+                             'numberOfFlightsByEnd',
+                             'numberOfFlightsByStartAndEnd',
+                             'totalTimeMeanSec',
+                             'totalTimeMeanMin'
                              ])
 
-    number_of_flights_by_hour_df = pd.DataFrame(columns=['date', 'hour', 'number_of_flights'])
 
-    flight_id_list = []
-    for date, date_df in pi_df.groupby(level='end_date'):
+    for date, date_df in pi_df.groupby(level='endDate'):
     
         print(date)
     
         for hour in range(0,24):
         
-            hour_df = date_df[date_df['end_hour'] == hour]
+            hour_df = date_df[date_df['endHour'] == hour]
 
             number_of_flights_hour= len(hour_df)
             
-            hour_by_start_and_end_df = date_df[(date_df['end_hour'] == hour) | ((date_df['end_hour'] != hour) & (date_df['begin_hour'] == hour)) ]
+            hour_by_start_and_end_df = date_df[(date_df['endHour'] == hour) | ((date_df['endHour'] != hour) & (date_df['beginHour'] == hour)) ]
 
             number_of_flights_hour_by_start_and_end = len(hour_by_start_and_end_df)
 
         
-            time_50NM_hour = hour_by_start_and_end_df['50NM_time_sec'].values # np array
+            time_50NM_hour = hour_by_start_and_end_df['TotalTimeSec'].values # np array
 
             time_50NM_hour_sum = np.sum(time_50NM_hour)
 
@@ -58,10 +56,10 @@ def calculate_50NM_time_by_hour(month, week):
                     
             pi_by_hour_df = pd.concat([pi_by_hour_df, pd.DataFrame({'date': [date],
                                     'hour': [hour], 
-                                    'number_of_flights_by_end': [number_of_flights_hour],
-                                    'number_of_flights_by_start_and_end': [number_of_flights_hour_by_start_and_end],
-                                    '50NM_time_mean_sec': [average_time_50NM_hour],
-                                    '50NM_time_mean_min': [average_time_50NM_hour/60] })])
+                                    'numberOfFlightsByEnd': [number_of_flights_hour],
+                                    'numberOfFlightsByStartAndEnd': [number_of_flights_hour_by_start_and_end],
+                                    'totalTimeMeanSec': [average_time_50NM_hour],
+                                    'totalTimeMeanMin': [average_time_50NM_hour/60] })])
 
 
     # not all dates in opensky states, creating empty rows for missing dates
@@ -88,10 +86,10 @@ def calculate_50NM_time_by_hour(month, week):
                 
                 pi_by_hour_df = pd.concat([pi_by_hour_df, pd.DataFrame({'date': [d],
                                         'hour': [hour], 
-                                        'number_of_flights_by_end': [0],
-                                        'number_of_flights_by_start_and_end': [0],
-                                        '50NM_time_mean_sec': [0],
-                                        '50NM_time_mean_min': [0] })])
+                                        'numberOfFlightsByEnd': [0],
+                                        'numberOfFlightsByStartAndEnd': [0],
+                                        'totalTimeMeanSec': [0],
+                                        'totalTimeMeanMin': [0] })])
 
 
     pi_by_hour_df = pi_by_hour_df.sort_values(by = ['date', 'hour'] )
@@ -107,6 +105,5 @@ def main():
     
     
 main()    
-
 
 print("--- %s minutes ---" % ((time.time() - start_time)/60))

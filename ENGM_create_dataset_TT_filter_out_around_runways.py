@@ -21,6 +21,8 @@ filename = "TT1.csv"
 states_df = pd.read_csv(os.path.join(DATASET_DATA_DIR, filename), sep=' ',
     names = ['flightId', 'sequence', 'timestamp', 'lat', 'lon', 'rawAltitude', 'altitude', 'velocity', 'beginDate', 'endDate'],
     dtype={'flightId':str, 'sequence':int, 'timestamp':int, 'lat':float, 'lon':float, 'rawAltitude':float, 'altitude':float, 'velocity':float, 'beginDate':str, 'endDate':str})
+
+
 states_df.set_index(['flightId', 'sequence'], inplace=True)
 
 number_of_flights = len(states_df.groupby(level='flightId'))
@@ -50,7 +52,7 @@ for flight_id, flight_df in states_df.groupby(level='flightId'):
         if (check_circle_contains_point(circle_center, radius, Point(lon, lat))):
             drop = True
             break    
-    if drop:  
+    if drop:
         states_df = states_df.drop(flight_id)
         
 number_of_flights = len(states_df.groupby(level='flightId'))
