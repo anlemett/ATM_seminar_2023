@@ -93,7 +93,7 @@ def calculate_horizontal_PIs(dataset):
     for flight_id, flight_id_group in states_df.groupby(level='flightId'):
         
         count = count + 1
-        print(AIRPORT_ICAO, flight_id_num, count, flight_id)
+        print(AIRPORT_ICAO, dataset, flight_id_num, count, flight_id)
 
         begin_timestamp = states_df.loc[flight_id]['timestamp'].values[0]
         begin_datetime = datetime.utcfromtimestamp(begin_timestamp)

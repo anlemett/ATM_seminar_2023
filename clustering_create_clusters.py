@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from shapely.geometry import Point
 import os
 from sklearn.cluster import KMeans
 import math
@@ -18,11 +17,12 @@ DATA_DIR = os.path.join("data", airport_icao)
 DATASET_DATA_DIR = os.path.join(DATA_DIR, "Datasets")
 DATA_DIR = os.path.join(DATA_DIR, "Clustering")
 
-
-#input_dataset = "PM_NORTH"
-input_dataset = "PM_SOUTH"
 #input_dataset = "TT_NORTH"
 #input_dataset = "TT_SOUTH"
+#input_dataset = "PM_NORTH"
+#input_dataset = "PM_SOUTH"
+input_dataset = "nonPM2_NORTH"
+#input_dataset = "nonPM2_SOUTH"
 
 input_filename = input_dataset + "_borders_points.csv"
 input_states_filename = input_dataset + ".csv"
@@ -93,8 +93,6 @@ points_df['cluster'] = points_df.apply(lambda row: fixClusterNumber(row['cluster
 
 
 points_df.to_csv(os.path.join(DATA_DIR, output_filename), sep=' ', encoding='utf-8', float_format='%.3f', index = True, header = True)   
-
-
 
 
 

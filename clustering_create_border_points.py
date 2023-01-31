@@ -1,6 +1,4 @@
-import numpy as np
 import pandas as pd
-from shapely.geometry import Point
 import os
 
 import time
@@ -15,14 +13,13 @@ DATA_INPUT_DIR = os.path.join(DATA_DIR, "Datasets")
 
 DATA_OUTPUT_DIR = os.path.join(DATA_DIR, "Clustering")
 
+#dataset = "TT"
+#dataset = "PM"
+dataset = "nonPM2"
 
-input_filename = "PM_NORTH"
+input_filename = dataset + "_NORTH"
 states_df = pd.read_csv(os.path.join(DATA_INPUT_DIR, input_filename + ".csv"), sep=' ',
     names = ['flightId', 'sequence', 'timestamp', 'lat', 'lon', 'rawAltitude', 'altitude', 'velocity', 'beginDate', 'endDate'])
-
-#input_filename = "TT_NORTH"
-#states_df = pd.read_csv(os.path.join(DATA_INPUT_DIR, input_filename + ".csv"), sep=' ',
-#    names = ['flightId', 'sequence', 'timestamp', 'lat', 'lon', 'rawAltitude', 'altitude', 'velocity', 'beginDate', 'endDate'])
 
 output_filename = input_filename + "_borders_points.csv"
 
@@ -47,13 +44,9 @@ for flight_id, flight_df in states_df.groupby(level='flightId'):
 borders_points_df.to_csv(os.path.join(DATA_OUTPUT_DIR, output_filename), sep=' ', encoding='utf-8', float_format='%.3f', index = False, header = True)   
         
 
-input_filename = "PM_SOUTH"
+input_filename = dataset + "_SOUTH"
 states_df = pd.read_csv(os.path.join(DATA_INPUT_DIR, input_filename + ".csv"), sep=' ',
     names = ['flightId', 'sequence', 'timestamp', 'lat', 'lon', 'rawAltitude', 'altitude', 'velocity', 'beginDate', 'endDate'])
-
-#input_filename = "TT_SOUTH"
-#states_df = pd.read_csv(os.path.join(DATA_INPUT_DIR, input_filename + ".csv"), sep=' ',
-#    names = ['flightId', 'sequence', 'timestamp', 'lat', 'lon', 'rawAltitude', 'altitude', 'velocity', 'beginDate', 'endDate'])
 
 output_filename = input_filename + "_borders_points.csv"
 

@@ -75,7 +75,7 @@ def calculate_50NM_time_by_hour(month, week):
     
         date = year[2:] + month
         
-        for d in range(1,9):
+        for d in range(1,10):
             month_date_list.append(date + '0' + str(d))
         for d in range(10,number_of_days+1):
             month_date_list.append(date + str(d))

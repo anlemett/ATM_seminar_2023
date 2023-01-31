@@ -75,7 +75,7 @@ def calculate_50NM_time_by_hour(dataset):
    
     date = '1910'
         
-    for d in range(1,9):
+    for d in range(1,10):
         month_date_list.append(date + '0' + str(d))
     for d in range(10,29):
         month_date_list.append(date + str(d))

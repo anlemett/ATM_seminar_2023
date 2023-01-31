@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import calendar
 import os
 
 AIRPORT_ICAO = "ENGM"
@@ -27,11 +26,6 @@ def calculate_hfe_by_hours(dataset):
                             'additionalDistanceMean', 'additionalDistanceMedian',
                             'distanceChangePercentMean'
                             ])
-
-    #print(hfe_by_flights_df.head())
-    #p1 = hfe_by_flights_df["distanceChangePercent"].quantile(0.05)
-    #p2 = hfe_by_flights_df["distanceChangePercent"].quantile(0.95)
-    #hfe_by_flights_df = hfe_by_flights_df.loc[(hfe_by_flights_df['distanceChangePercent'] > p1) & (hfe_by_flights_df['distanceChangePercent'] < p2) ]
     
     hfe_by_flights_df.set_index(['endDate'], inplace=True)
     
@@ -45,11 +39,6 @@ def calculate_hfe_by_hours(dataset):
 
             number_of_flights_hour = len(hour_df)
             
-            #remove outliers
-            #if number_of_flights_hour>0:
-            #    hour_df = hour_df.loc[(hour_df['distanceChangePercent'] > p1) & (hour_df['distanceChangePercent'] < p2) ]
-            #    if len(hour_df)==0:
-            #         number_of_flights_hour = 0
             
             if number_of_flights_hour == 0:
                 average_additional_distance_hour = 0
@@ -88,7 +77,7 @@ def create_hfe_by_hours_file(dataset, hfe_by_hours_df):
     
     date = '1910'
 
-    for d in range(1,9):
+    for d in range(1,10):
         month_date_list.append(date + '0' + str(d))
     for d in range(10,29):
         month_date_list.append(date + str(d))
@@ -110,7 +99,6 @@ def create_hfe_by_hours_file(dataset, hfe_by_hours_df):
     hfe_by_hours_df = hfe_by_hours_df.sort_values(by = ['date', 'hour'] )
     hfe_by_hours_df.reset_index(drop=True, inplace=True)
 
-    #output_filename = "PIs_horizontal_by_hour.csv"
     output_filename = dataset + "PIs_horizontal_by_hours.csv"
     full_output_filename = os.path.join(PIs_DIR, output_filename)
     hfe_by_hours_df.to_csv(full_output_filename, sep=' ', encoding='utf-8', float_format='%.3f', header=True, index=False)
