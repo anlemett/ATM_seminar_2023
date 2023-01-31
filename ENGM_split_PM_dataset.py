@@ -11,7 +11,7 @@ airport_icao = "ENGM"
 
 DATA_DIR = os.path.join("data", airport_icao)
 
-DATASET_DIR = os.path.join(DATA_DIR, "Dataset")
+DATASET_DIR = os.path.join(DATA_DIR, "Datasets")
 
 input_filename = "PM.csv"
 

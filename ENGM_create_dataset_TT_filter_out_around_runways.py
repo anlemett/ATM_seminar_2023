@@ -13,7 +13,7 @@ airport_icao = "ENGM"
 
 
 DATA_DIR = os.path.join("data", airport_icao)
-DATASET_DATA_DIR = os.path.join(DATA_DIR, "Dataset")
+DATASET_DATA_DIR = os.path.join(DATA_DIR, "Datasets")
 
 states_df = pd.DataFrame()
 

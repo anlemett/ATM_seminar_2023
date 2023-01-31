@@ -11,7 +11,7 @@ months = ['10']
 
 DATA_DIR = os.path.join("data", airport_icao)
 STATES_DIR = os.path.join(DATA_DIR, "States_50NM")
-DATA_OUTPUT_DIR = os.path.join(DATA_DIR, "Dataset")
+DATA_OUTPUT_DIR = os.path.join(DATA_DIR, "Datasets")
 
 
 filename = os.path.join(STATES_DIR, "osn_arrival_ENGM_states_50NM_2019_10_week1.csv")

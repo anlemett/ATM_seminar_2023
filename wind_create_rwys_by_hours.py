@@ -71,6 +71,6 @@ def getFlightDirBool(rwy01R, rwy01L, rwy19R, rwy19L): # direction of flight - TO
 rwys_number_df['flight_dir_bool'] = rwys_number_df.apply(lambda row: getFlightDirBool(row['01R'], row['01L'], row['19R'], row['19L']), axis=1)
 
 
-filename = os.path.join(DATA_DIR, "runways_by_hour.csv")
+filename = os.path.join(DATA_DIR, "runways_by_hours.csv")
 rwys_number_df.to_csv(filename, sep=' ', encoding='utf-8', float_format='%.3f', index = False, header = True)
 

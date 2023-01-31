@@ -11,7 +11,7 @@ airport_icao = "ENGM"
 months = ['10']
 
 DATA_DIR = os.path.join("data", airport_icao)
-DATASET_DIR = os.path.join(DATA_DIR, "Dataset")
+DATASET_DIR = os.path.join(DATA_DIR, "Datasets")
 DATA_OUTPUT_DIR = os.path.join(DATA_DIR, "PIs")
 
 dataset = "nonPM"

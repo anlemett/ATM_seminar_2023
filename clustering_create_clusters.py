@@ -15,7 +15,7 @@ number_of_clusters = 6
 
 
 DATA_DIR = os.path.join("data", airport_icao)
-DATASET_DATA_DIR = os.path.join(DATA_DIR, "Dataset")
+DATASET_DATA_DIR = os.path.join(DATA_DIR, "Datasets")
 DATA_DIR = os.path.join(DATA_DIR, "Clustering")
 
 

@@ -11,7 +11,7 @@ airport_icao = "ENGM"
 
 DATA_DIR = os.path.join("data", airport_icao)
 
-DATA_INPUT_DIR = os.path.join(DATA_DIR, "Dataset")
+DATA_INPUT_DIR = os.path.join(DATA_DIR, "Datasets")
 
 DATA_OUTPUT_DIR = os.path.join(DATA_DIR, "Clustering")
 
