@@ -4,7 +4,8 @@ import os
 
 AIRPORT_ICAO = "ENGM"
 
-DATASETS = ["PM_NORTH", "PM_SOUTH", "TT_NORTH", "TT_SOUTH"]
+#DATASETS = ["TT_final_NORTH", "TT_final_SOUTH", "PM_final_NORTH", "PM_final_SOUTH", "nonPM_final_NORTH", "nonPM_final_SOUTH"]
+DATASETS = ["TT_final_NORTH", "TT_final_SOUTH", "PM_final_SOUTH"]
 
 import time
 start_time = time.time()
@@ -81,13 +82,14 @@ def create_hfe_by_hours_file(dataset, hfe_by_hours_df):
         month_date_list.append(date + '0' + str(d))
     for d in range(10,29):
         month_date_list.append(date + str(d))
+        
 
     for d in month_date_list:
         if d not in df_dates_np:
             for hour in range(0, 24):
                 
                 hfe_by_hours_df = pd.concat([hfe_by_hours_df, pd.DataFrame({
-                                    'date': [date], 
+                                    'date': [d], 
                                     'hour': [hour],
                                     'numberOfFlights': [0],
                                     'additionalDistanceMean': [0],
@@ -95,11 +97,10 @@ def create_hfe_by_hours_file(dataset, hfe_by_hours_df):
                                     'distanceChangePercentMean': [0]})])
                 
                 
-
     hfe_by_hours_df = hfe_by_hours_df.sort_values(by = ['date', 'hour'] )
     hfe_by_hours_df.reset_index(drop=True, inplace=True)
 
-    output_filename = dataset + "PIs_horizontal_by_hours.csv"
+    output_filename = dataset + "_PIs_horizontal_by_hours.csv"
     full_output_filename = os.path.join(PIs_DIR, output_filename)
     hfe_by_hours_df.to_csv(full_output_filename, sep=' ', encoding='utf-8', float_format='%.3f', header=True, index=False)
 
@@ -110,7 +111,7 @@ def main():
     for dataset in DATASETS:
         
         hfe_by_hours_df = calculate_hfe_by_hours(dataset)
-    
+            
         create_hfe_by_hours_file(dataset, hfe_by_hours_df)
     
 main()    

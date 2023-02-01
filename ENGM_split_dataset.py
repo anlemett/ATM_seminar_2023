@@ -12,8 +12,8 @@ DATA_DIR = os.path.join("data", airport_icao)
 DATASET_DIR = os.path.join(DATA_DIR, "Datasets")
 
 #dataset = "TT"
-#dataset = "PM"
-dataset = "nonPM2"
+#dataset = "PM_final"
+dataset = "nonPM_final"
 
 input_filename = dataset + ".csv"
 

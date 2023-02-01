@@ -8,7 +8,8 @@ start_time = time.time()
 
 AIRPORT_ICAO = "ENGM"
 
-DATASETS = ["PM", "TT", "nonPM"]
+#DATASETS = ["TT_final", "PM_final", "nonPM_final"]
+DATASETS = ["TT_final_NORTH", "TT_final_SOUTH", "PM_final_NORTH", "PM_final_SOUTH", "nonPM_final_NORTH", "nonPM_final_SOUTH"]
 
 #descent part ends at 1800 feet
 descent_end_altitude = 1800 / 3.281
@@ -53,9 +54,6 @@ def calculate_vfe(dataset):
     rolling_window_Y = (300*(min_level_time/60))/ 3.281 # feet to meters
     #print(rolling_window_Y)
 
-    #descent part ends at 1800 feet
-    descent_end_altitude = 1800 / 3.281
-    #print(descent_end_altitude)
     
     vfe_df = pd.DataFrame(columns=['flightId',  'beginDate', 'endDate', 
                                    'beginHour', 'endHour', 'numberOfLevels',

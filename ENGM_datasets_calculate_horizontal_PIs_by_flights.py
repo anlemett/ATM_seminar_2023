@@ -14,7 +14,8 @@ months = ['10']
 
 AIRPORT_ICAO = "ENGM"
 
-DATASETS = ["PM_NORTH", "PM_SOUTH", "TT_NORTH", "TT_SOUTH"]
+#DATASETS = ["TT_final_NORTH", "TT_final_SOUTH", "PM_final_NORTH", "PM_final_SOUTH", "nonPM_final_NORTH", "nonPM_final_SOUTH"]
+DATASETS = ["TT_final_NORTH", "TT_final_SOUTH", "PM_final_SOUTH"]
 
 #descent part ends at 1800 feet
 descent_end_altitude = 1800 / 3.281

@@ -19,10 +19,10 @@ DATA_DIR = os.path.join(DATA_DIR, "Clustering")
 
 #input_dataset = "TT_NORTH"
 #input_dataset = "TT_SOUTH"
-#input_dataset = "PM_NORTH"
-#input_dataset = "PM_SOUTH"
-input_dataset = "nonPM2_NORTH"
-#input_dataset = "nonPM2_SOUTH"
+#input_dataset = "PM_final_NORTH"
+#input_dataset = "PM_final_SOUTH"
+#input_dataset = "nonPM_final_NORTH"
+input_dataset = "nonPM_final_SOUTH"
 
 input_filename = input_dataset + "_borders_points.csv"
 input_states_filename = input_dataset + ".csv"

@@ -14,8 +14,8 @@ DATA_INPUT_DIR = os.path.join(DATA_DIR, "Datasets")
 DATA_OUTPUT_DIR = os.path.join(DATA_DIR, "Clustering")
 
 #dataset = "TT"
-#dataset = "PM"
-dataset = "nonPM2"
+#dataset = "PM_final"
+dataset = "nonPM_final"
 
 input_filename = dataset + "_NORTH"
 states_df = pd.read_csv(os.path.join(DATA_INPUT_DIR, input_filename + ".csv"), sep=' ',

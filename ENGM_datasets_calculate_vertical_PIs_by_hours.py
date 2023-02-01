@@ -5,13 +5,20 @@ import os
 
 AIRPORT_ICAO = "ENGM"
 
-DATASETS = ["PM", "TT", "nonPM"]
+DATASETS = ["TT_final", "PM_final", "nonPM_final"]
 
 import time
 start_time = time.time()
 
 DATA_DIR = os.path.join("data", AIRPORT_ICAO)
 PIs_DIR = os.path.join(DATA_DIR, "PIs")
+
+if not os.path.exists(DATA_DIR):
+    print("NO DIR 1")
+
+if not os.path.exists(PIs_DIR):
+    print("NO DIR 2")
+
 
 def calculate_vfe_by_hours(dataset):
     
@@ -164,7 +171,7 @@ def create_vfe_by_hours_file(dataset, vfe_by_hours_df):
             for hour in range(0, 24):
                 
                 vfe_by_hours_df = pd.concat([vfe_by_hours_df, pd.DataFrame({
-                                    'date': [date], 
+                                    'date': [d], 
                                     'hour': [hour],
                                     'numberOfFlights': [0],
                                     'numberOfLevelsTotal': [0],
