@@ -83,7 +83,7 @@ def calculate_horizontal_PIs(dataset):
                                    'beginDate', 'endDate', 
                                    'beginHour', 'endHour', 
                                    'referenceDistance',
-                                   'distance', 'additionalDistance', 'distanceChangePercent', 'endAltitude'
+                                   'distance', 'additionalDistance', 'distanceChangePercent', 'endAltitude', 'timeTMA'
                                    ])
 
     
@@ -111,7 +111,11 @@ def calculate_horizontal_PIs(dataset):
         
         endAltitude = 0
         
+        timeTMA = 0
+        
         for seq, row in flight_id_group.groupby(level='sequence'):
+            
+            timeTMA = timeTMA + 1
              
             if seq == 0:
                 previous_point = (row['lat'].values[0], row['lon'].values[0])
@@ -144,6 +148,8 @@ def calculate_horizontal_PIs(dataset):
         
         distance_change_percent = (add_distance / distance_ref) * 100
         distance_change_percent_str = "{0:.2f}".format(distance_change_percent)
+        
+        timeTMA = timeTMA/60
                              
         hfe_df = pd.concat([hfe_df, pd.DataFrame({'flightId': [flight_id],
                                 'beginDate': [begin_date_str], 
@@ -154,7 +160,8 @@ def calculate_horizontal_PIs(dataset):
                                 'distance': [distance_str],
                                 'additionalDistance': [add_distance_str],
                                 'distanceChangePercent': [distance_change_percent_str],
-                                'endAltitude': [endAltitude]
+                                'endAltitude': [endAltitude],
+                                'timeTMA': [timeTMA]
                                 })])
 
     hfe_df.to_csv(full_output_filename, sep=' ', encoding='utf-8', float_format='%.3f', header=True, index=False)

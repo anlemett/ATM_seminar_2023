@@ -25,7 +25,7 @@ AIRPORT_ICAO = "ENGM"
 splitted_datasets = True
 PI_name = "timeOnLevelsPercent"
 
-PI_y_label = "Time Flown Level (\%)"
+PI_y_label = "Time Flown Level (%)"
 figure_filename = "boxplot_time_on_levels_PM_"
     
 if splitted_datasets:
@@ -93,25 +93,54 @@ fig, ax = plt.subplots(1, 1,figsize=(7,5), dpi = None)
 #fig, ax = plt.subplots(1, 1,figsize=(7,5))
 #fig, ax = plt.subplots(1, 1,figsize=(4,3))
 
-dimgray = (105/255,105/255,105/255)
+boxprops = dict(linestyle='--', linewidth=1, color='gray')
+box_plot = ax.boxplot(PIs_dict.values(), sym='+', boxprops=boxprops, patch_artist=True)
 
-box_plot = ax.boxplot(PIs_dict.values(), sym='+', patch_artist=True)
+###########Gray version###################
+
+#dimgray = (105/255,105/255,105/255)
    
-for element in ['boxes']:
-    plt.setp(box_plot[element], color=dimgray)
-
-for element in ['whiskers', 'caps', 'medians']:
-    plt.setp(box_plot[element], color=dimgray)
+#for element in ['boxes', 'whiskers', 'caps', 'medians']:
+#    plt.setp(box_plot[element], color=dimgray)
         
-for element in ['fliers']:
-    plt.setp(box_plot[element], markeredgecolor = dimgray, alpha = 0.1)
+#for element in ['fliers']:
+#    plt.setp(box_plot[element], markeredgecolor = dimgray, alpha = 0.1)
 
-for patch in box_plot['boxes']:
-    patch.set(facecolor='lightgray')
+#for patch in box_plot['boxes']:
+#    patch.set(facecolor='lightgray')
+
+#for whisker in box_plot['whiskers']:
+#    whisker.set(linestyle ="--")
+
+###########Color version###################
+
+# Colors are from: https://colorbrewer2.org/#type=diverging&scheme=RdYlBu&n=3
+# 3 data classes, diverging, colorblind safe, print friendly
+orange_rgb = (252,141,89)
+yellow_rgb = (255,255,191)
+blue_rgb = (145,191,219)
+
+orange = tuple(c/255 for c in orange_rgb)
+yellow = tuple(c/255 for c in yellow_rgb)
+blue = tuple(c/255 for c in blue_rgb)
+
+colors = [yellow, yellow, blue, blue]
+
+for patch, color in zip(box_plot['boxes'], colors):
+    patch.set_facecolor(color)
     #patch.set_alpha(0.5)
+
+for flier, color in zip(box_plot['fliers'], colors):
+    #flier.set(markeredgecolor = color, alpha = 0.9)
+    flier.set(markeredgecolor = 'darkgray', alpha = 0.9)
+    
+for element in ['whiskers', 'caps', 'medians']:
+    plt.setp(box_plot[element], color='dimgray')
 
 for whisker in box_plot['whiskers']:
     whisker.set(linestyle ="--")
+
+########################################
 
 if not splitted_datasets:
     ax.set_xticklabels(["PM", "PM no seq.legs"], fontsize=16)
@@ -122,7 +151,6 @@ else:
 
 plt.ylabel(PI_y_label, fontsize=22)
 plt.yticks(fontsize=16)
-
 
 #plt.subplots_adjust(left=0.09, right=0.99, top=0.99, bottom=0.1)
 plt.subplots_adjust(left=0.11, right=0.99, top=0.99, bottom=0.125)
