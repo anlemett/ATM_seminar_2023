@@ -4,8 +4,7 @@ import os
 
 AIRPORT_ICAO = "ENGM"
 
-#DATASETS = ["TT_final_NORTH", "TT_final_SOUTH", "PM_final_NORTH", "PM_final_SOUTH", "nonPM_final_NORTH", "nonPM_final_SOUTH"]
-DATASETS = ["TT_final_NORTH", "TT_final_SOUTH", "PM_final_SOUTH"]
+DATASETS = ["TT_final_NORTH", "TT_final_SOUTH", "PM_final_NORTH", "PM_final_SOUTH", "nonPM_final_NORTH", "nonPM_final_SOUTH"]
 
 import time
 start_time = time.time()

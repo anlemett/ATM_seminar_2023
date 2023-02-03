@@ -14,8 +14,7 @@ months = ['10']
 
 AIRPORT_ICAO = "ENGM"
 
-#DATASETS = ["TT_final_NORTH", "TT_final_SOUTH", "PM_final_NORTH", "PM_final_SOUTH", "nonPM_final_NORTH", "nonPM_final_SOUTH"]
-DATASETS = ["TT_final_NORTH", "TT_final_SOUTH", "PM_final_SOUTH"]
+DATASETS = ["TT_final_NORTH", "TT_final_SOUTH", "PM_final_NORTH", "PM_final_SOUTH", "nonPM_final_NORTH", "nonPM_final_SOUTH"]
 
 #descent part ends at 1800 feet
 descent_end_altitude = 1800 / 3.281
@@ -84,7 +83,7 @@ def calculate_horizontal_PIs(dataset):
                                    'beginDate', 'endDate', 
                                    'beginHour', 'endHour', 
                                    'referenceDistance',
-                                   'distance', 'additionalDistance', 'distanceChangePercent'
+                                   'distance', 'additionalDistance', 'distanceChangePercent', 'endAltitude'
                                    ])
 
     
@@ -110,6 +109,8 @@ def calculate_horizontal_PIs(dataset):
 
         #df_length = len(flight_id_group)
         
+        endAltitude = 0
+        
         for seq, row in flight_id_group.groupby(level='sequence'):
              
             if seq == 0:
@@ -120,6 +121,8 @@ def calculate_horizontal_PIs(dataset):
             
             distance_sum = distance_sum + geodesic(previous_point, current_point).meters
             previous_point = current_point
+            
+            endAltitude = row['altitude'].values[0]
 
 
         distance_str = "{0:.3f}".format(distance_sum)
@@ -141,7 +144,7 @@ def calculate_horizontal_PIs(dataset):
         
         distance_change_percent = (add_distance / distance_ref) * 100
         distance_change_percent_str = "{0:.2f}".format(distance_change_percent)
-                      
+                             
         hfe_df = pd.concat([hfe_df, pd.DataFrame({'flightId': [flight_id],
                                 'beginDate': [begin_date_str], 
                                 'endDate': [end_date_str],
@@ -150,7 +153,8 @@ def calculate_horizontal_PIs(dataset):
                                 'referenceDistance': [distance_ref],
                                 'distance': [distance_str],
                                 'additionalDistance': [add_distance_str],
-                                'distanceChangePercent': [distance_change_percent_str]
+                                'distanceChangePercent': [distance_change_percent_str],
+                                'endAltitude': [endAltitude]
                                 })])
 
     hfe_df.to_csv(full_output_filename, sep=' ', encoding='utf-8', float_format='%.3f', header=True, index=False)

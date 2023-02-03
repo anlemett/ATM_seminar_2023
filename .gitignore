@@ -4,6 +4,7 @@ __pycache__/
 *.txt
 *.nc
 *.png
+*.eps
 *.pdf
 *.iml
 */data/*
