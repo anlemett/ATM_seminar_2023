@@ -17,12 +17,12 @@ DATA_DIR = os.path.join("data", airport_icao)
 DATASET_DATA_DIR = os.path.join(DATA_DIR, "Datasets")
 DATA_DIR = os.path.join(DATA_DIR, "Clustering")
 
-#input_dataset = "TT_NORTH"
-#input_dataset = "TT_SOUTH"
+#input_dataset = "TT_final_NORTH"
+input_dataset = "TT_final_SOUTH"
 #input_dataset = "PM_final_NORTH"
 #input_dataset = "PM_final_SOUTH"
 #input_dataset = "nonPM_final_NORTH"
-input_dataset = "nonPM_final_SOUTH"
+#input_dataset = "nonPM_final_SOUTH"
 
 input_filename = input_dataset + "_borders_points.csv"
 input_states_filename = input_dataset + ".csv"
@@ -92,7 +92,20 @@ def fixClusterNumber(cluster):
 points_df['cluster'] = points_df.apply(lambda row: fixClusterNumber(row['cluster']), axis=1)
 
 
-points_df.to_csv(os.path.join(DATA_DIR, output_filename), sep=' ', encoding='utf-8', float_format='%.3f', index = True, header = True)   
+#points_df.to_csv(os.path.join(DATA_DIR, output_filename), sep=' ', encoding='utf-8', float_format='%.3f', index = True, header = True)   
+
+
+if input_dataset == "PM_final_NORTH" or input_dataset == "nonPM_final_NORTH" or input_dataset == "TT_final_NORTH":
+    
+    south_flights_df = points_df[(points_df['cluster']==3) | (points_df['cluster']==4)]
+    print(len(south_flights_df)) # PM - 90 flights, nonPM - 1435 flights, TT - 1047 flights
+    print(len(south_flights_df)/len(points_df))  # PM - 13 %, nonPM - 53%, TT - 44%
+
+if input_dataset == "PM_final_SOUTH" or input_dataset == "nonPM_final_SOUTH" or input_dataset == "TT_final_SOUTH":
+    
+    north_flights_df = points_df[(points_df['cluster']==1) | (points_df['cluster']==6)]
+    print(len(north_flights_df)) # PM - 75 flights, nonPM - 1010 flights,  TT - 631 flights
+    print(len(north_flights_df)/len(points_df))  # PM -  5%, nonPM - 35 %, TT - 30%
 
 
 
