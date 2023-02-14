@@ -22,14 +22,14 @@ from textwrap import wrap
 
 AIRPORT_ICAO = "ENGM"
 
-PI_vertical_type = True
-splitted_datasets = False
-PI_name = "timeOnLevelsPercent"
+PI_vertical_type = False
+splitted_datasets = True
+#PI_name = "timeOnLevelsPercent"
 #PI_name = "timeTMA"
 #PI_name = "distanceChangePercent"
 #PI_name = "additionalDistance"
-#PI_name = "distance"
-notPMlegs = True
+PI_name = "distance"
+notPMlegs = False
 
 if PI_vertical_type:
     if PI_name == "timeOnLevelsPercent":
@@ -137,7 +137,12 @@ for dataset in DATASETS:
     PI_max = PIs_dict[dataset_name].max()
         
     #print(dataset_name, PI_name, PI_median, PI_mean, PI_std, PI_min, PI_max)
-    print(dataset_name + " " + PI_name + f" {PI_median:.2f}" + f" {PI_mean:.2f}" + f" {PI_std:.2f}")
+    
+    #print(dataset_name + " " + PI_name + f" {PI_median:.2f}" + f" {PI_min:.2f}" + f" {PI_max:.2f}")
+    
+    # median/mean/std/min/max    
+    print(dataset_name + " " + PI_name + f" {PI_median:.2f}" + f" {PI_mean:.2f}" + f" {PI_std:.2f}" +
+            f" {PI_min:.2f}" + f" {PI_max:.2f}")
 
     
     #flight_df = PIs_df.loc[PIs_df[PI_name] == PI_max]
@@ -145,23 +150,20 @@ for dataset in DATASETS:
     #print(temp_df.head(1))
 
     #print("Number of no-level flights: ")
-    if (dataset == "PM_final" or dataset == "PM_final_NORTH" or dataset == "PM_final_SOUTH") and notPMlegs: 
-        if notPMlegs:
-            noLevels_df = PIs_df[PIs_df[PI_name]==0]
-            #print(len(noLevels_df))
-            #print(len(noLevels_df)/len(PIs_df))    #PM_final - 44%, PM_final_NORTH - 66%, PM_final_SOUTH - 34%
-    else:
-        noLevels_df = PIs_df[PIs_df[PI_name]==0]
-        #print(len(noLevels_df))
-        #print(len(noLevels_df)/len(PIs_df))    #PM_final - 44%, PM_final_NORTH - 66%, PM_final_SOUTH - 34%
-       
+    #noLevels_df = PIs_df[PIs_df[PI_name]==0]
+    #print(len(noLevels_df)/len(PIs_df))    # notPMLegs:    PM_final - 44%, PM_final_NORTH - 66%, PM_final_SOUTH - 34%
+                                           # with PM legs: PM_final - 28%, PM_final_NORTH - 35%, PM_final_SOUTH - 25%
+                                           # TT_final - 31 %, TT_final_NORTH - 40%, TT_final_SOUTH - 26% 
+                                           # nonPM_final - 49 % nonPM_final_NORTH - 63%, nonPM_final_SOUTH - 35%
+               
 #print(len(PIs_dict))         
 
 #fig, ax = plt.subplots(1, 1,figsize=(7,5))
 fig, ax = plt.subplots(1, 1,figsize=(7,5), dpi = None)
 
 boxprops = dict(linestyle='--', linewidth=1, color='gray')
-box_plot = ax.boxplot(PIs_dict.values(), sym='+', boxprops=boxprops, patch_artist=True)
+meanpointprops = dict(marker='s', markersize=5, markeredgecolor='dimgrey', markerfacecolor='grey')
+box_plot = ax.boxplot(PIs_dict.values(), sym='+', boxprops=boxprops, meanprops=meanpointprops, patch_artist=True, showmeans=True)
 
 ###########Gray version###################
 

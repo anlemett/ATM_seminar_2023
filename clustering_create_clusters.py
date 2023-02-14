@@ -106,6 +106,9 @@ if input_dataset == "PM_final_SOUTH" or input_dataset == "nonPM_final_SOUTH" or 
     north_flights_df = points_df[(points_df['cluster']==1) | (points_df['cluster']==6)]
     print(len(north_flights_df)) # PM - 75 flights, nonPM - 1010 flights,  TT - 631 flights
     print(len(north_flights_df)/len(points_df))  # PM -  5%, nonPM - 35 %, TT - 30%
+    
+    # PM - (90 + 75)/2262 = 0.07 (7 %)
+    # nonPM - (1435 + 1010)/5567 = 0.44 (44 %)
 
 
 

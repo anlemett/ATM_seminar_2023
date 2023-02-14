@@ -94,7 +94,8 @@ fig, ax = plt.subplots(1, 1,figsize=(7,5), dpi = None)
 #fig, ax = plt.subplots(1, 1,figsize=(4,3))
 
 boxprops = dict(linestyle='--', linewidth=1, color='gray')
-box_plot = ax.boxplot(PIs_dict.values(), sym='+', boxprops=boxprops, patch_artist=True)
+meanpointprops = dict(marker='s', markersize=5, markeredgecolor='dimgrey', markerfacecolor='grey')
+box_plot = ax.boxplot(PIs_dict.values(), sym='+', boxprops=boxprops, meanprops=meanpointprops, patch_artist=True, showmeans=True)
 
 ###########Gray version###################
 
@@ -124,7 +125,7 @@ orange = tuple(c/255 for c in orange_rgb)
 yellow = tuple(c/255 for c in yellow_rgb)
 blue = tuple(c/255 for c in blue_rgb)
 
-colors = [yellow, yellow, blue, blue]
+colors = [yellow, yellow, yellow, yellow]
 
 for patch, color in zip(box_plot['boxes'], colors):
     patch.set_facecolor(color)
